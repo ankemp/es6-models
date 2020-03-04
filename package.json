@@ -1,0 +1,16 @@
+{
+  "name": "es6-models",
+  "version": "1.0.0",
+  "description": "An Example of ES6 Models in Typescript",
+  "main": "index.js",
+  "repository": "https://git.magicbean.us/andrew/es6-models",
+  "author": "Andrew Kemp",
+  "license": "MIT",
+  "dependencies": {
+    "reflect-metadata": "^0.1.13",
+    "typescript": "^3.8.3"
+  },
+  "devDependencies": {
+    "jest": "^25.1.0"
+  }
+}
