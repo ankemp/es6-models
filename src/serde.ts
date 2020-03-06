@@ -1,9 +1,4 @@
-import "reflect-metadata";
-
-
-/* tslint:disable:comment-type */
-export const PLUCK_PROPERTIES_KEY = 'serde:pluck_properties';
-export const EXCLUDED_PROPERTIES_KEY = 'serde:excluded_properties';
+import { EXCLUDED_PROPERTIES_KEY, PLUCK_PROPERTIES_KEY } from './decorators';
 
 export abstract class Serde<S> extends Object {
   protected removeableProperty(key: string): boolean {
@@ -63,37 +58,3 @@ export abstract class Serde<S> extends Object {
   }
 
 }
-
-/* tslint:disable:variable-name only-arrow-functions */
-/**
- * Adding this decorator prevents the property from being included in the object built by Serde.serialize()
- */
-export function Exclude(): Function {
-  return function (target: any, key: string): void {
-    Reflect.defineMetadata(
-      EXCLUDED_PROPERTIES_KEY,
-      [
-        ...Reflect.getMetadata(EXCLUDED_PROPERTIES_KEY, target) || [],
-        key
-      ],
-      target
-    );
-  };
-}
-
-/**
- * Adding this decorator allows for plucking out an T[] or {T: v}[]
- *
- * @param field  - use 'fieldName' when creating string|number[],
- * use ['fieldName'] when creating {[fieldName]: value}[]
- */
-export function Pluck(field: string | string[]): Function {
-  return function (target: any, key: string): void {
-    Reflect.defineMetadata(PLUCK_PROPERTIES_KEY, {
-      ...Reflect.getMetadata(PLUCK_PROPERTIES_KEY, target) || {},
-      ...{ [key]: field }
-    }, target);
-  };
-}
-
-/* tslint:enable:variable-name */

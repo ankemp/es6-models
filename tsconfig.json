@@ -1,28 +1,27 @@
-  
 {
-    "compilerOptions": {
-        "module": "commonjs",
-        "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
-        "target": "es6",
-        "noImplicitAny": false,
-        "moduleResolution": "node",
-        "sourceMap": true,
-        "outDir": "dist",
-        "baseUrl": ".",
-        "importHelpers": true,
-        "types": ["jest"],
-        "typeRoots": [
-          "node_modules/@types"
-        ],
-        "lib": [
-          "es2017",
-          "dom"
-        ]
-    },
-    "include": [
-        "src/**/*"
-    ]
+  "compilerOptions": {
+      "module": "commonjs",
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
+      "target": "es6",
+      "noImplicitAny": false,
+      "moduleResolution": "node",
+      "sourceMap": true,
+      "outDir": "dist",
+      "baseUrl": ".",
+      "importHelpers": true,
+      "types": ["jest"],
+      "typeRoots": [
+        "node_modules/@types"
+      ],
+      "lib": [
+        "es2017",
+        "dom"
+      ]
+  },
+  "include": [
+      "src/**/*", "test/**/*"
+  ]
 }

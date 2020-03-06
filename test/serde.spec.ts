@@ -1,4 +1,5 @@
-import { Exclude, Pluck, Serde } from './serde';
+import { Serde } from 'src/serde';
+import { Exclude, Pluck } from 'src/decorators';
 
 class ExcludeTestModel extends Serde<ExcludeTestModel> {
   name: string;
