@@ -10,10 +10,10 @@
     "test": "jest",
     "test:debug": "jest test --runInBand --verbose=false"
   },
-  "engines" : {
-    "node" : "> 12.16.0",
+  "engines": {
+    "node": "> 12.16.0",
     "yarn": "> 1.22.0"
-  }, 
+  },
   "dependencies": {
     "reflect-metadata": "^0.1.13",
     "tslib": "^1.11.1",
