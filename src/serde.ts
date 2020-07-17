@@ -31,7 +31,7 @@ export abstract class Serde<S> extends Object {
 
   serialize() {
     const pluckProperties = Reflect.getMetadata(PLUCK_PROPERTIES_KEY, this) as {[key: string]: any};
-    return Object.entries(this)
+    let serializedObj = Object.entries(this)
       .filter(([key, _]) => this.removeableProperty(key))
       .reduce((obj, [key, value]) => {
         if (!!pluckProperties) {
@@ -50,11 +50,12 @@ export abstract class Serde<S> extends Object {
           }
         }
         obj[key] = this.recursiveSerialize(value);
-        if (typeof this.customSerialize === 'function') {
-          obj = this.customSerialize(obj);
-        }
         return obj;
       }, {} as Partial<S>);
+      if (typeof this.customSerialize === 'function') {
+        serializedObj = this.customSerialize(serializedObj);
+      }
+      return serializedObj;
   }
 
 }
