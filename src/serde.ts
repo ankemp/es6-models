@@ -1,4 +1,4 @@
-import { EXCLUDED_PROPERTIES_KEY, PLUCK_PROPERTIES_KEY } from './decorators';
+import { EXCLUDED_PROPERTIES_KEY, PLUCK_PROPERTIES_KEY, STRONG_CLASS_KEY, STRONG_ERROR_MESSAGE } from './decorators';
 
 export abstract class Serde<S> extends Object {
   protected removeableProperty(key: string): boolean {
@@ -12,7 +12,27 @@ export abstract class Serde<S> extends Object {
     return value instanceof Serde ? value.serialize() : value;
   }
 
+  private checkStrongTypes(input: Partial<S>): boolean {
+    const strongTyped = Reflect.getMetadata(STRONG_CLASS_KEY, this);
+    if (!strongTyped) {
+      return true;
+    }
+    return Object.entries(strongTyped).every(([key, type]) => {
+      if (typeof type === 'string') {
+        return typeof input[key] === type;
+      }
+      if (typeof type === 'object') {
+        const clazz = type as any;
+        return input[key] instanceof clazz; 
+      }
+      return false;
+    });
+  }
+
   copyWith<C extends S>(input: { [P in keyof Partial<C>]: any }): this {
+    if (!this.checkStrongTypes(input)) {
+      throw Error(STRONG_ERROR_MESSAGE);
+    }
     return Object.assign(
       Object.create(Object.getPrototypeOf(this)),
       this,
@@ -25,8 +45,11 @@ export abstract class Serde<S> extends Object {
   customSerialize?<C extends S>(input: { [P in keyof Partial<C>]: any }): any;
 
   deserialize(input: Partial<S>): this {
-    Object.assign(this, input);
-    return this;
+    if (this.checkStrongTypes(input)) {
+      Object.assign(this, input);
+      return this;
+    }
+    throw Error(STRONG_ERROR_MESSAGE);
   }
 
   serialize() {
