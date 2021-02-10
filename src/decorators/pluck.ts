@@ -6,8 +6,8 @@ export const PLUCK_PROPERTIES_KEY = 'serde:pluck_properties';
  * @param field  - use 'fieldName' when creating string|number[],
  * use ['fieldName'] when creating {[fieldName]: value}[]
  */
-export function Pluck(field: string | string[]): Function {
-    return function (target: any, key: string): void {
+export function Pluck(field: string | string[]): PropertyDecorator {
+    return function (target: any, key: PropertyKey): void {
       Reflect.defineMetadata(PLUCK_PROPERTIES_KEY, {
         ...Reflect.getMetadata(PLUCK_PROPERTIES_KEY, target) || {},
         ...{ [key]: field }
